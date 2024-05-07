@@ -57,6 +57,7 @@ class UsersController {
         password: user.password,
       });
 
+    delete user.password;
     response.json(user);
   }
 }
