@@ -2,6 +2,14 @@ const knex = require("../database/knex");
 const AppError = require("../utils/AppError");
 
 class MoviesController {
+  async index(request, response) {
+    const { user_id } = request.params;
+
+    const movies = await knex("movies").where({ user_id }).orderBy("created_at");
+
+    return response.json(movies);
+  }
+
   async create(request, response) {
     const { user_id } = request.params;
     const { title, description, rating } = request.body;
