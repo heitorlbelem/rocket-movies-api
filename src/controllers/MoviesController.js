@@ -44,6 +44,20 @@ class MoviesController {
 
     return response.status(200).json(movie);
   }
+
+  async delete(request, response) {
+    const { user_id, id } = request.params;
+
+    const movie = await knex("movies").where({ user_id, id }).first();
+
+    if(!movie) {
+      throw new AppError("Filme não encontrado", 404);
+    }
+
+    await knex("movies").where({ id: movie.id }).delete();
+
+    return response.status(204).json();
+  }
 }
 
 module.exports = MoviesController;

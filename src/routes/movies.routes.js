@@ -6,5 +6,6 @@ const moviesController = new MoviesController();
 
 moviesRoutes.post("/", moviesController.create);
 moviesRoutes.put("/:id", moviesController.update);
+moviesRoutes.delete("/:id", moviesController.delete);
 
 module.exports = moviesRoutes;
