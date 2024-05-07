@@ -18,6 +18,7 @@ export default [
       "object-curly-spacing": ["error", "always"],
       "eol-last": ["error", "always"],
       "comma-dangle": ["error", "always-multiline"],
+      "space-infix-ops": ["error", { "int32Hint": true }],
     },
   },
   pluginJs.configs.recommended,
