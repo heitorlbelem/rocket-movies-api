@@ -12,7 +12,7 @@ class MoviesController {
 
   async create(request, response) {
     const { user_id } = request.params;
-    const { title, description, rating } = request.body;
+    const { title, description, rating, tags } = request.body;
 
     if(!title) {
       throw new AppError("Título do filme é obrigatório");
@@ -22,7 +22,18 @@ class MoviesController {
       throw new AppError("Avaliação deve estar entre 0 e 5 pontos");
     }
 
-    await knex("movies").insert({ title, description, rating, user_id });
+    const [movie_id] = await knex("movies")
+      .insert({ title, description, rating, user_id });
+
+    const tagsInsert = tags.map(tag => {
+      return({
+        movie_id,
+        name: tag,
+        user_id,
+      });
+    });
+
+    await knex("tags").insert(tagsInsert);
 
     return response.status(201).json();
   }
