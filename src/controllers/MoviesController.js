@@ -3,7 +3,7 @@ const AppError = require("../utils/AppError");
 
 class MoviesController {
   async index(request, response) {
-    const { user_id } = request.params;
+    const user_id = request.user.id;
     const { title, tags } = request.query;
 
     let movies;
@@ -38,7 +38,7 @@ class MoviesController {
   }
 
   async create(request, response) {
-    const { user_id } = request.params;
+    const user_id = request.user.id;
     const { title, description, rating, tags } = request.body;
 
     if(!title) {
@@ -66,8 +66,9 @@ class MoviesController {
   }
 
   async update(request, response) {
-    const { user_id, id } = request.params;
+    const { id } = request.params;
     const { title, description, rating } = request.body;
+    const user_id = request.user.id;
 
     const movie = await knex("movies").where({ id, user_id }).first();
     if(!movie) {
@@ -92,9 +93,10 @@ class MoviesController {
   }
 
   async delete(request, response) {
-    const { user_id, id } = request.params;
+    const { id } = request.params;
+    const user_id = request.user.id;
 
-    const movie = await knex("movies").where({ user_id, id }).first();
+    const movie = await knex("movies").where({ id, user_id }).first();
 
     if(!movie) {
       throw new AppError("Filme não encontrado", 404);

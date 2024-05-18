@@ -1,8 +1,12 @@
 const { Router } = require("express");
-const moviesRoutes = Router({ mergeParams: true });
+const moviesRoutes = Router();
+
+const ensureAuthenticated = require("../middlewares/ensureAuthenticated");
 
 const MoviesController = require("../controllers/MoviesController");
 const moviesController = new MoviesController();
+
+moviesRoutes.use(ensureAuthenticated);
 
 moviesRoutes.get("/", moviesController.index);
 moviesRoutes.post("/", moviesController.create);
